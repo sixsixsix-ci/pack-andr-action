@@ -47,5 +47,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
           name: app
-          path: app/build/outputs/apk/official/release/app-appstore-release.apk 
+          path: app/build/outputs/apk/appstore/release/app-appstore-release.apk 
 
