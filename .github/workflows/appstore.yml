@@ -1,9 +1,9 @@
-name: Official CI
+name: Appstore CI
 
 on:
   push:
     tags:
-      - "official-*"
+      - "appstore-*"
 
 jobs:
   storebuild:
