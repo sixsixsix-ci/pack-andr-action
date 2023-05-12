@@ -39,6 +39,8 @@ jobs:
         cache: gradle
     
     - name: Config ssh
+      env: 
+        RSA_KEY: ${{ secrets.RSA_KEY }}
       run: bash ${GITHUB_WORKSPACE}/.github/scripts/ssh_config.sh 
     
     - name: Grant execute permission for gradlew
