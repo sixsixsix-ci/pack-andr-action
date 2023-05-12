@@ -1,0 +1,61 @@
+name: Official CI
+
+on:
+  push:
+    tags:
+      - "official-*"
+
+jobs:
+  storebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out my other private repo
+      uses: actions/checkout@master
+      with:
+        repository: CoolBank/wallet_android
+        token: ${{ secrets.MY_PAT }}
+        
+    - name: Checkout main-store
+      run: |
+          git checkout main-store
+          
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+    
+    - name: Config ssh
+      run: bash ${GITHUB_WORKSPACE}/.github/scripts/ssh_config.sh 
+    
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build with Gradle
+      env:
+          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+          STOREPASSWORD: ${{ secrets.STOREPASSWORD }}
+          KEYALIAS: ${{ secrets.KEYALIAS }}
+      run: |
+          sed -i "1s/123/$KEYPASSWORD/" key.properties
+          sed -i "2s/123/$STOREPASSWORD/" key.properties
+          sed -i "3s/123/$KEYALIAS/" key.properties
+          bash ./gradlew assembleofficialRelease --stacktrace
+          
+    - uses: actions/upload-artifact@v2
+      with:
+          name: app
+          path: app/build/outputs/apk/official/release/app-official-release.apk 
+          
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: Upload to S3
+      run: |
+        bash ${GITHUB_WORKSPACE}/.github/scripts/s3_upload.sh
+      env:
+        S3_APP_BUCKET: ${{ secrets.S3_APP_BUCKET }}
