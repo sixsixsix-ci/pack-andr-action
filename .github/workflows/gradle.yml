@@ -10,14 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup SSH
-      uses: MrSquaare/ssh-setup-action@v1
-      with:
-          host: github.com
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    
-    - name: Clone repository
-      run: git clone git@github.com:CoolBank/wallet_android.git
+#     - name: Setup SSH
+#       uses: MrSquaare/ssh-setup-action@v1
+#       with:
+#           host: github.com
+#           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+    - name: Download selected private repository dependencies
+      run: |
+        ssh-agent sh -c 'echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add - && git clone git@github.com:CoolBank/wallet_android.git'
+        cd wallet_android
+#     - name: Clone repository
+#       run: git clone git@github.com:CoolBank/wallet_android.git
 #     - uses: actions/checkout@v3
 #       with:
 #         repository: CoolBank/wallet_android
