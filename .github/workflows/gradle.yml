@@ -16,16 +16,21 @@ jobs:
 #           host: github.com
 #           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-    - name: Download selected private repository dependencies
-      run: |
-        ssh-agent sh -c 'echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add - && git clone git@github.com:CoolBank/wallet_android.git'
-        cd wallet_android
+#     - name: Download selected private repository dependencies
+#       run: |
+#         ssh-agent sh -c 'echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add - && git clone git@github.com:CoolBank/wallet_android.git'
+#         cd wallet_android
 #     - name: Clone repository
 #       run: git clone git@github.com:CoolBank/wallet_android.git
 #     - uses: actions/checkout@v3
 #       with:
 #         repository: CoolBank/wallet_android
-    
+    - name: Check out my other private repo
+      uses: actions/checkout@master
+      with:
+        repository: CoolBank/wallet_android
+        token: ${{ secrets.MY_PAT }}
+          
     - name: set up JDK 11
       uses: actions/setup-java@v3
       with:
