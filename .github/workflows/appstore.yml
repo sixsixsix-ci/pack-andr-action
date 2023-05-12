@@ -42,20 +42,10 @@ jobs:
           sed -i "1s/123/$KEYPASSWORD/" key.properties
           sed -i "2s/123/$STOREPASSWORD/" key.properties
           sed -i "3s/123/$KEYALIAS/" key.properties
-          bash ./gradlew assembleofficialRelease --stacktrace
+          bash ./gradlew assembleAppstoreRelease --stacktrace
           
     - uses: actions/upload-artifact@v2
       with:
           name: app
-          path: app/build/outputs/apk/official/release/app-official-release.apk 
-          
-    - uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-    - name: Upload to S3
-      run: |
-        bash ${GITHUB_WORKSPACE}/.github/scripts/s3_upload.sh
-      env:
-        S3_APP_BUCKET: ${{ secrets.S3_APP_BUCKET }}
+          path: app/build/outputs/apk/official/release/app-appstore-release.apk 
+
