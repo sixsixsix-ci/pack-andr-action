@@ -58,5 +58,5 @@ jobs:
           track: production
           status: completed
           inAppUpdatePriority: 2
-          userFraction: 1!
+          userFraction: 1.0
           whatsNewDirectory: releaseNotes/
