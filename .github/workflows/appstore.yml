@@ -50,3 +50,11 @@ jobs:
           name: app
           path: app/build/outputs/apk/appstore/release/app-appstore-release.apk 
 
+    - uses: r0adkll/upload-google-play@v1
+      with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_KEY }}
+          packageName: com.coinhub.wallet
+          releaseFiles: app/build/outputs/apk/appstore/release/app-appstore-release.apk 
+          track: production
+          status: inProgress
+          userFraction: 1
