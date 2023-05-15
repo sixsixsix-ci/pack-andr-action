@@ -19,7 +19,7 @@ jobs:
     - name: Checkout main-store
       run: |
           git pull
-          git checkout -b main-store-google origin/main-store-google
+          git checkout -b main-store origin/main-store
           
     - name: set up JDK 11
       uses: actions/setup-java@v3
