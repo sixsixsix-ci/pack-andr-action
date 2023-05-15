@@ -57,4 +57,3 @@ jobs:
           releaseFiles: app/build/outputs/apk/appstore/release/app-appstore-release.apk 
           track: production
           status: inProgress
-          userFraction: 1
