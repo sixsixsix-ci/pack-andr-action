@@ -56,4 +56,4 @@ jobs:
           packageName: com.coinhub.wallet
           releaseFiles: app/build/outputs/apk/appstore/release/app-appstore-release.apk 
           track: production
-          status: inProgress
+          status: draft
